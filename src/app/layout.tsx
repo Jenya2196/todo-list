@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import './globals.css';
-import Headre from '@/Components/Layout/Header/Headre';
-import Footer from '@/Components/Layout/Footer/Footer';
-import { cn } from '@/Components/lib/utils';
+import Headre from '@/components/Layout/Header/Headre';
+import Footer from '@/components/Layout/Footer/Footer';
+import { cn } from '../components/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 

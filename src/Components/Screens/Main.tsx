@@ -1,13 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Button from '../UI/Bottons/Button';
-import { Pencil, Plus, Trash } from 'lucide-react';
-import Checkbox from '../UI/Bottons/Checkbox';
 import AddBlockTask from './AddBlockTask';
 import PagesGroup from './PageGroup/PagesGroup';
 import { useTodo } from '@/context/TodoContext';
 import AddTask from './PageGroup/AddTask';
 import EditTask from './PageGroup/EditTask';
+import { Checkbox } from '../ui';
 
 type Props = {};
 
@@ -24,37 +22,37 @@ function Main({}: Props) {
   const currentList = lists.find((list) => list.id === pageId);
 
   return (
-    <div className="w-full flex flex-col items-center gap-2 max-w-3xl mx-auto p-2 sm:p-4">
+    <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 p-2 sm:p-4">
       <PagesGroup page={pageId} onPage={setPageId} />
 
       {lists.length === 0 ? (
-        <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-6">
+        <h1 className="mb-6 text-center text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
           You don't have any task groups yet
         </h1>
       ) : (
         <>
-          <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-6">
+          <h1 className="mb-6 text-center text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
             Your Task List
           </h1>
 
           {lists.length === 0 ? (
-            <p className="text-center text-gray-500 dark:text-gray-400 italic">
+            <p className="text-center text-gray-500 italic dark:text-gray-400">
               The list is empty
             </p>
           ) : (
-            <div className="w-full space-y-3 sm:space-y-4 mt-4">
+            <div className="mt-4 w-full space-y-3 sm:space-y-4">
               {currentList &&
                 currentList.tasks.map((task) => (
                   <div
                     key={task.id}
-                    className={`p-2 flex flex-col gap-2 rounded-md ${
+                    className={`flex flex-col gap-2 rounded-md p-2 ${
                       task.completed
-                        ? 'bg-green-100 dark:bg-green-700/50 text-green-900 dark:text-green-200 line-through'
-                        : 'bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors'
+                        ? 'bg-green-100 text-green-900 line-through dark:bg-green-700/50 dark:text-green-200'
+                        : 'bg-gray-50 text-gray-900 transition-colors hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-full text-center font-bold text-sm sm:text-base">
+                      <div className="w-full text-center text-sm font-bold sm:text-base">
                         {task.name}
                       </div>
                       <div className="flex gap-2">
@@ -67,9 +65,9 @@ function Main({}: Props) {
                         {task.subTasks.map((sub) => (
                           <li
                             key={sub.id}
-                            className={`flex items-start justify-between bg-white dark:bg-gray-800 border rounded p-2 border-black/30 text-xs sm:text-sm ${
+                            className={`flex items-start justify-between rounded border border-black/30 bg-white p-2 text-xs sm:text-sm dark:bg-gray-800 ${
                               sub.completed
-                                ? 'line-through bg-green-500/30 dark:text-green-200'
+                                ? 'bg-green-500/30 line-through dark:text-green-200'
                                 : ''
                             }`}
                           >

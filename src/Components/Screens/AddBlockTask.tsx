@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import Button from '../UI/Bottons/Button';
-import Modal from '../UI/Modal';
-import Input from '../UI/Bottons/Input';
+import Button from '../ui/Bottons/Button';
+import Modal from '../ui/Modal';
+import Input from '../ui/Bottons/Input';
 import { useTodo } from '@/context/TodoContext';
 
 type Props = {
@@ -70,7 +70,7 @@ function AddBlockTask({ id }: Props) {
               Add Task
             </Button>
 
-            <div className="flex justify-end mt-4">
+            <div className="mt-4 flex justify-end">
               <Button type="submit">Create</Button>
             </div>
           </form>

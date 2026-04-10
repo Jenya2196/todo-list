@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Modal from '../../UI/Modal';
-import Input from '../../UI/Bottons/Input';
-import Button from '../../UI/Bottons/Button';
+import Modal from '../../ui/Modal';
+import Input from '../../ui/Bottons/Input';
+import Button from '../../ui/Bottons/Button';
 import { useTodo } from '@/context/TodoContext';
 
 type Props = {
@@ -75,7 +75,7 @@ function CreateGroup({ onSubmit, onClose }: Props) {
           Add Task
         </Button>
 
-        <div className="flex justify-end mt-4 border-t p-2">
+        <div className="mt-4 flex justify-end border-t p-2">
           <Button type="submit">Create</Button>
         </div>
       </form>

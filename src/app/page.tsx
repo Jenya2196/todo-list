@@ -1,4 +1,4 @@
-import Main from '@/Components/Screens/Main';
+import Main from '@/components/Screens/Main';
 import { TodoProvider } from '@/context/TodoContext';
 
 //grid grid-rows-[20px_1fr_20px]  grid grid-rows-[repeat(10,20px)]

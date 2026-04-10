@@ -1,6 +1,6 @@
 import Button from '@/Components/UI/Bottons/Button';
 import Input from '@/Components/UI/Bottons/Input';
-import Modal from '@/Components/UI/Modal';
+import Modal from '@/components/ui/Modal';
 import { useTodo } from '@/context/TodoContext';
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
@@ -27,7 +27,7 @@ function AddTask({ id, taskId }: Props) {
   return (
     <>
       <Button
-        className="flex gap-2 items-center justify-center"
+        className="flex items-center justify-center gap-2"
         onClick={() => {
           setShow(true);
         }}
@@ -38,7 +38,7 @@ function AddTask({ id, taskId }: Props) {
         <Modal title="Add Task" onClose={() => setShow(false)}>
           <form onSubmit={handleSubmit}>
             <Input label="Task Description" name="description" required />
-            <div className="flex justify-end mt-4 border-t p-2">
+            <div className="mt-4 flex justify-end border-t p-2">
               <Button type="submit">Create</Button>
             </div>
           </form>

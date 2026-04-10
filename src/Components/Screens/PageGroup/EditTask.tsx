@@ -1,6 +1,6 @@
 import Button from '@/Components/UI/Bottons/Button';
 import Input from '@/Components/UI/Bottons/Input';
-import Modal from '@/Components/UI/Modal';
+import Modal from '@/components/ui/Modal';
 import { useTodo } from '@/context/TodoContext';
 import { tTask } from '@/Types/typeTodoList';
 import { Pencil, Trash } from 'lucide-react';
@@ -36,7 +36,7 @@ function EditTask({ id, taskId }: Props) {
   return (
     <>
       <Button onClick={() => setShow(true)}>
-        <Pencil className="w-4 h-4" />
+        <Pencil className="h-4 w-4" />
       </Button>
       <Button
         variant="danger"
@@ -46,7 +46,7 @@ function EditTask({ id, taskId }: Props) {
           update();
         }}
       >
-        <Trash className="w-4 h-4" />
+        <Trash className="h-4 w-4" />
       </Button>
       {show && (
         <Modal
