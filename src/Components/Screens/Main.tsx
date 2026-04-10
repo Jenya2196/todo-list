@@ -90,4 +90,4 @@ function Main() {
   );
 }
 
-export default Main;
+export { Main };
