@@ -33,7 +33,12 @@ export default function RootLayout({
       <body
         className={`h-screen bg-white text-black dark:bg-zinc-900 dark:text-white ${geistSans.variable} ${geistMono.variable}`}
       >
-        <ThemeProvider attribute="class">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
           <div className="grid h-full grid-rows-[60px_1fr_30px]">
             <Header />
             <main className="overflow-auto p-2 sm:p-4 md:px-20 lg:px-40">

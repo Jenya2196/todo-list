@@ -47,7 +47,7 @@ function EditTask({ id, taskId }: Props) {
   return (
     <>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button>
             <Pencil className="h-4 w-4" />
           </Button>
@@ -72,7 +72,7 @@ function EditTask({ id, taskId }: Props) {
                   />
                 </Field>
                 {task.subTasks?.map((subTask) => (
-                  <Field>
+                  <Field key={subTask.id}>
                     <Label htmlFor="Description">Name Task</Label>
                     <Textarea
                       id="Description"
@@ -100,7 +100,7 @@ function EditTask({ id, taskId }: Props) {
             )}
           </FieldGroup>
           <DialogFooter>
-            <DialogClose>
+            <DialogClose asChild>
               <Button>Close</Button>
             </DialogClose>
           </DialogFooter>

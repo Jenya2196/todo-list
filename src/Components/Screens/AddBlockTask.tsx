@@ -52,65 +52,62 @@ function AddBlockTask() {
   };
 
   return (
-    <>
-      {/* <Button onClick={() => setShowModal(true)}>Add Task Block</Button> */}
-      <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogTrigger asChild>
-          <Button>
-            <Plus /> Add Task Block
-          </Button>
-        </DialogTrigger>
-        <DialogContent aria-describedby={undefined} className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Add Task Block</DialogTitle>
-          </DialogHeader>
-          <form
-            id="formAddTackBlock"
-            className="max-h-[70vh] overflow-y-auto"
-            onSubmit={handleSubmit}
-          >
-            <FieldGroup>
-              <Field>
-                <Label htmlFor="groupName">Block Name</Label>
-                <Input
-                  id="groupName"
-                  name="groupName"
+    <Dialog open={showModal} onOpenChange={setShowModal}>
+      <DialogTrigger asChild>
+        <Button>
+          <Plus /> Add Task Block
+        </Button>
+      </DialogTrigger>
+      <DialogContent aria-describedby={undefined} className="sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Add Task Block</DialogTitle>
+        </DialogHeader>
+        <form
+          id="formAddTackBlock"
+          className="max-h-[70vh] overflow-y-auto"
+          onSubmit={handleSubmit}
+        >
+          <FieldGroup>
+            <Field>
+              <Label htmlFor="groupName">Block Name</Label>
+              <Input
+                id="groupName"
+                name="groupName"
+                required
+                value={blockName}
+                onChange={(e) => setBlockName(e.target.value)}
+              />
+            </Field>
+            {tasks.map((task, index) => (
+              <Field key={index}>
+                <Label htmlFor="task_Description">Task Description</Label>
+                <Textarea
+                  id="task_Description"
+                  name="description"
                   required
-                  value={blockName}
-                  onChange={(e) => setBlockName(e.target.value)}
+                  value={task}
+                  onChange={(e) => handleChangeTask(index, e.target.value)}
                 />
               </Field>
-              {tasks.map((task, index) => (
-                <Field>
-                  <Label htmlFor="task_Description">Task Description</Label>
-                  <Textarea
-                    id="task_Description"
-                    name="description"
-                    required
-                    value={task}
-                    onChange={(e) => handleChangeTask(index, e.target.value)}
-                  />
-                </Field>
-              ))}
-              <Field>
-                <Button type="button" onClick={handleAddTask} className="mt-2">
-                  Add Task
-                </Button>
-              </Field>
-            </FieldGroup>
-          </form>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            ))}
+            <Field>
+              <Button type="button" onClick={handleAddTask} className="mt-2">
+                Add Task
+              </Button>
+            </Field>
+          </FieldGroup>
+        </form>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
 
-            <Button type="submit" form="formAddTackBlock">
-              Create
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+          <Button type="submit" form="formAddTackBlock">
+            Create
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
