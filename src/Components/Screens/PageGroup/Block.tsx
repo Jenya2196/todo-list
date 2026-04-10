@@ -1,5 +1,6 @@
 'use client';
-import Button from '@/Components/UI/Bottons/Button';
+
+import { Button } from '@/components/ui';
 import clsx from 'clsx';
 import { Trash } from 'lucide-react';
 import React, { ReactNode } from 'react';
@@ -14,14 +15,14 @@ function Block({ children, className, onDelete, ...props }: Props) {
     <div
       {...props}
       className={clsx(
-        'flex justify-between items-center gap-2 border rounded p-2 hover:cursor-pointer',
+        'flex items-center justify-between gap-2 rounded-lg border px-2 py-1 hover:cursor-pointer',
         className
       )}
     >
       <div className="truncate">{children}</div>
       <div className="flex gap-2">
-        <Button variant="danger" onClick={onDelete}>
-          <Trash className="w-3 h-3" />
+        <Button variant={'destructive'} onClick={onDelete} size={'icon-sm'}>
+          <Trash />
         </Button>
       </div>
     </div>

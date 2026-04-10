@@ -1,3 +1,4 @@
+export * from './dialog';
 export * from './button';
 export * from './card';
 export * from './checkbox';
@@ -7,3 +8,4 @@ export * from './item';
 export * from './label';
 export * from './select';
 export * from './separator';
+export * from './textarea';

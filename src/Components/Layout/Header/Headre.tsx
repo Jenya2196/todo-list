@@ -1,49 +1,20 @@
 'use client';
-import Select from '@/Components/UI/Bottons/Select';
-import React, { useEffect, useState } from 'react';
 
-type StyleType = {
-  name: string;
-  id: number;
-};
-
-const styleData: StyleType[] = [
-  { name: 'dark', id: 1 },
-  { name: 'light', id: 2 },
-];
+import { Button } from '@/components/ui';
+import { useTheme } from 'next-themes';
+import React from 'react';
 
 function Header() {
-  const [style, setStyle] = useState<StyleType>(styleData[0]);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    const matchedStyle =
-      styleData.find((elem) => elem.name === savedTheme) || styleData[1];
-
-    setStyle(matchedStyle);
-
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(matchedStyle.name);
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   return (
-    <div className="w-full h-full border-b shadow-md dark:shadow-white/20">
-      <div className="p-2 flex items-center justify-between">
-        <div className="font-bold text-2xl">Todo List</div>
+    <div className="h-full w-full border-b shadow-md dark:shadow-white/20">
+      <div className="flex items-center justify-between p-2">
+        <div className="text-2xl font-bold">Todo List</div>
         <div>
-          <Select
-            select={style}
-            onSelect={(e: StyleType) => {
-              console.log(e);
-
-              setStyle(e);
-              localStorage.setItem('theme', e.name);
-
-              document.documentElement.classList.remove('light', 'dark');
-              document.documentElement.classList.add(e.name);
-            }}
-            data={styleData}
-          />
+          <Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            {theme}
+          </Button>
         </div>
       </div>
     </div>

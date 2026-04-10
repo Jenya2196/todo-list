@@ -1,19 +1,29 @@
 'use client';
 import React, { useState } from 'react';
-import Button from '../ui/Bottons/Button';
 import Modal from '../ui/Modal';
-import Input from '../ui/Bottons/Input';
 import { useTodo } from '@/context/TodoContext';
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  FieldGroup,
+  Input,
+  Label,
+  Textarea,
+} from '../ui';
+import { Plus } from 'lucide-react';
 
-type Props = {
-  id: number;
-};
-
-function AddBlockTask({ id }: Props) {
+function AddBlockTask() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [blockName, setBlockName] = useState<string>('');
   const [tasks, setTasks] = useState<string[]>(['']);
-  const { manager, update } = useTodo();
+  const { manager, update, pageId } = useTodo();
 
   const handleAddTask = () => {
     setTasks([...tasks, '']);
@@ -27,13 +37,13 @@ function AddBlockTask({ id }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!blockName.trim()) return;
+    if (!blockName.trim() || !pageId) return;
 
-    const taskId = manager.CreateTask(id, blockName);
+    const taskId = manager.CreateTask(pageId, blockName);
     if (!taskId) return;
 
     const filteredTasks = tasks.filter((t) => t !== '');
-    manager.AddTask(id, taskId, [...filteredTasks]);
+    manager.AddTask(pageId, taskId, [...filteredTasks]);
     update();
 
     setShowModal(false);
@@ -43,39 +53,63 @@ function AddBlockTask({ id }: Props) {
 
   return (
     <>
-      <Button onClick={() => setShowModal(true)}>Add Task Block</Button>
-
-      {showModal && (
-        <Modal onSelect={() => {}} onClose={() => setShowModal(false)}>
-          <form onSubmit={handleSubmit}>
-            <Input
-              label="Block Name"
-              name="groupName"
-              value={blockName}
-              onChange={(e) => setBlockName(e.target.value)}
-            />
-
-            {tasks.map((task, index) => (
-              <Input
-                key={index}
-                name="description"
-                value={task}
-                label="Task Description"
-                multiline
-                onChange={(e) => handleChangeTask(index, e.target.value)}
-              />
-            ))}
-
-            <Button type="button" onClick={handleAddTask} className="mt-2">
-              Add Task
-            </Button>
-
-            <div className="mt-4 flex justify-end">
-              <Button type="submit">Create</Button>
-            </div>
+      {/* <Button onClick={() => setShowModal(true)}>Add Task Block</Button> */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogTrigger asChild>
+          <Button>
+            <Plus /> Add Task Block
+          </Button>
+        </DialogTrigger>
+        <DialogContent aria-describedby={undefined} className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Add Task Block</DialogTitle>
+          </DialogHeader>
+          <form
+            id="formAddTackBlock"
+            className="max-h-[70vh] overflow-y-auto"
+            onSubmit={handleSubmit}
+          >
+            <FieldGroup>
+              <Field>
+                <Label htmlFor="groupName">Block Name</Label>
+                <Input
+                  id="groupName"
+                  name="groupName"
+                  required
+                  value={blockName}
+                  onChange={(e) => setBlockName(e.target.value)}
+                />
+              </Field>
+              {tasks.map((task, index) => (
+                <Field>
+                  <Label htmlFor="task_Description">Task Description</Label>
+                  <Textarea
+                    id="task_Description"
+                    name="description"
+                    required
+                    value={task}
+                    onChange={(e) => handleChangeTask(index, e.target.value)}
+                  />
+                </Field>
+              ))}
+              <Field>
+                <Button type="button" onClick={handleAddTask} className="mt-2">
+                  Add Task
+                </Button>
+              </Field>
+            </FieldGroup>
           </form>
-        </Modal>
-      )}
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+
+            <Button type="submit" form="formAddTackBlock">
+              Create
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

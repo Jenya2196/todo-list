@@ -1,14 +1,12 @@
 import { Github } from 'lucide-react';
 import React from 'react';
 
-type Props = {};
-
-function Footer({}: Props) {
+function Footer() {
   return (
-    <div className="w-full h-full text-center">
+    <div className="h-full w-full text-center">
       <a
         href="https://github.com/Jenya2196"
-        className="hover:text-blue-500 flex items-end justify-center"
+        className="flex items-end justify-center hover:text-blue-500"
       >
         <Github />
         GitHub

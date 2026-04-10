@@ -1,50 +1,77 @@
-import Button from '@/Components/UI/Bottons/Button';
-import Input from '@/Components/UI/Bottons/Input';
-import Modal from '@/components/ui/Modal';
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  FieldGroup,
+  Input,
+  Label,
+} from '@/components/ui';
 import { useTodo } from '@/context/TodoContext';
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
 
 type Props = {
-  id: number | null;
   taskId: number;
 };
 
-function AddTask({ id, taskId }: Props) {
-  const { manager, update } = useTodo();
-  const [show, setShow] = useState<boolean>(false);
+function AddTask({ taskId }: Props) {
+  const { manager, update, pageId } = useTodo();
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get('description') as string;
-    if (!taskId || id == null) return;
-    manager.AddSubTask(id, taskId, name);
+    if (!taskId || pageId == null) return;
+    manager.AddSubTask(pageId, taskId, name);
     update();
-    setShow(false);
+    setOpen(false);
   };
 
   return (
-    <>
-      <Button
-        className="flex items-center justify-center gap-2"
-        onClick={() => {
-          setShow(true);
-        }}
-      >
-        <Plus /> Add Task
-      </Button>
-      {show && (
-        <Modal title="Add Task" onClose={() => setShow(false)}>
-          <form onSubmit={handleSubmit}>
-            <Input label="Task Description" name="description" required />
-            <div className="mt-4 flex justify-end border-t p-2">
-              <Button type="submit">Create</Button>
-            </div>
-          </form>
-        </Modal>
-      )}
-    </>
+    <Dialog
+      open={open}
+      onOpenChange={(e) => {
+        setOpen(e);
+      }}
+    >
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <Plus /> Add Task
+        </Button>
+      </DialogTrigger>
+      <DialogContent aria-describedby={undefined} className="sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Add Task</DialogTitle>
+        </DialogHeader>
+        <form
+          id="Add_Task"
+          className="max-h-[70vh] overflow-y-auto"
+          onSubmit={handleSubmit}
+        >
+          <FieldGroup>
+            <Field>
+              <Label htmlFor="task_Description">Task Description</Label>
+              <Input id="task_Description" name="description" required />
+            </Field>
+          </FieldGroup>
+        </form>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button form="Add_Task" type="submit">
+            Create
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

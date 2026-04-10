@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef } from 'react';
 import { X } from 'lucide-react';
-import Button from './Bottons/Button';
+import { Button } from '.';
 
 type Props = {
   title?: string;
@@ -16,32 +16,32 @@ function Modal({ title, children, selectTitle, onSelect, onClose }: Props) {
   return (
     <div
       ref={ref}
-      className="fixed z-30 top-0 left-0 bg-black/40 h-full w-full flex items-center justify-center p-4"
+      className="fixed top-0 left-0 z-30 flex h-full w-full items-center justify-center bg-black/40 p-4"
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
     >
       <div
-        className={`relative grid grid-rows-[auto_1fr_auto] p-2 w-full max-w-md sm:max-w-lg md:max-w-2xl max-h-[90vh] min-h-[50vh] bg-white dark:bg-zinc-900 rounded-lg shadow-lg gap-4 overflow-hidden`}
+        className={`relative grid max-h-[90vh] min-h-[50vh] w-full max-w-md grid-rows-[auto_1fr_auto] gap-4 overflow-hidden rounded-lg bg-white p-2 shadow-lg sm:max-w-lg md:max-w-2xl dark:bg-zinc-900`}
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 p-1 rounded-full hover:bg-black/10 hover:dark:bg-white/10 transition"
+          className="absolute top-3 right-3 rounded-full p-1 transition hover:bg-black/10 hover:dark:bg-white/10"
           aria-label="Close modal"
         >
-          <X className="w-6 h-6" />
+          <X className="h-6 w-6" />
         </button>
 
         {title && (
-          <div className="lg:text-2xl font-bold border-b border-black/30 dark:border-white/30 p-2 pr-10">
+          <div className="border-b border-black/30 p-2 pr-10 font-bold lg:text-2xl dark:border-white/30">
             {title}
           </div>
         )}
 
-        <div className="overflow-y-auto p-2 space-y-2 ">{children}</div>
+        <div className="space-y-2 overflow-y-auto p-2">{children}</div>
 
         {selectTitle && (
-          <div className="flex p-2 justify-end border-t border-black/30 dark:border-white/30">
+          <div className="flex justify-end border-t border-black/30 p-2 dark:border-white/30">
             <Button
               onClick={() => {
                 if (onSelect) onSelect();

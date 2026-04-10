@@ -1,6 +1,18 @@
-import Button from '@/Components/UI/Bottons/Button';
-import Input from '@/Components/UI/Bottons/Input';
-import Modal from '@/components/ui/Modal';
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Field,
+  FieldGroup,
+  Input,
+  Label,
+  Textarea,
+} from '@/components/ui';
 import { useTodo } from '@/context/TodoContext';
 import { tTask } from '@/Types/typeTodoList';
 import { Pencil, Trash } from 'lucide-react';
@@ -13,7 +25,6 @@ type Props = {
 
 function EditTask({ id, taskId }: Props) {
   const { lists, manager, update } = useTodo();
-  const [show, setShow] = useState<boolean>(false);
   const [task, setTask] = useState<tTask | null>(null);
 
   useEffect(() => {
@@ -35,11 +46,68 @@ function EditTask({ id, taskId }: Props) {
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>
-        <Pencil className="h-4 w-4" />
-      </Button>
+      <Dialog>
+        <DialogTrigger>
+          <Button>
+            <Pencil className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent aria-describedby={undefined}>
+          <DialogHeader>
+            <DialogTitle>Edit Task</DialogTitle>
+          </DialogHeader>
+          <FieldGroup className="max-h-[70vh] overflow-y-auto">
+            {task && (
+              <>
+                <Field>
+                  <Label htmlFor="nameTask">Name Task</Label>
+                  <Input
+                    id="nameTask"
+                    value={task.name}
+                    onChange={(e) => {
+                      setTask((prev) =>
+                        prev ? { ...prev, name: e.target.value } : prev
+                      );
+                    }}
+                  />
+                </Field>
+                {task.subTasks?.map((subTask) => (
+                  <Field>
+                    <Label htmlFor="Description">Name Task</Label>
+                    <Textarea
+                      id="Description"
+                      value={subTask.text}
+                      onChange={(e) => {
+                        setTask((prev) =>
+                          prev
+                            ? {
+                                ...prev,
+                                subTasks: !prev.subTasks
+                                  ? []
+                                  : prev.subTasks.map((s) =>
+                                      s.id === subTask.id
+                                        ? { ...s, text: e.target.value }
+                                        : s
+                                    ),
+                              }
+                            : prev
+                        );
+                      }}
+                    />
+                  </Field>
+                ))}
+              </>
+            )}
+          </FieldGroup>
+          <DialogFooter>
+            <DialogClose>
+              <Button>Close</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Button
-        variant="danger"
+        variant={'destructive'}
         onClick={() => {
           if (!id) return;
           manager.DeleteTask(id, taskId);
@@ -48,55 +116,6 @@ function EditTask({ id, taskId }: Props) {
       >
         <Trash className="h-4 w-4" />
       </Button>
-      {show && (
-        <Modal
-          title="Edit Task"
-          onClose={() => {
-            setShow(false);
-          }}
-          selectTitle="Close"
-          onSelect={() => setShow(false)}
-        >
-          {task && (
-            <>
-              <Input
-                label="Name Task"
-                name="nameTask"
-                value={task.name}
-                onChange={(e) => {
-                  setTask((prev) =>
-                    prev ? { ...prev, name: e.target.value } : prev
-                  );
-                }}
-              />
-              {task.subTasks?.map((subTask) => (
-                <Input
-                  key={subTask.id}
-                  label="Description"
-                  name="description"
-                  onChange={(e) => {
-                    setTask((prev) =>
-                      prev
-                        ? {
-                            ...prev,
-                            subTasks: !prev.subTasks
-                              ? []
-                              : prev.subTasks.map((s) =>
-                                  s.id === subTask.id
-                                    ? { ...s, text: e.target.value }
-                                    : s
-                                ),
-                          }
-                        : prev
-                    );
-                  }}
-                  value={subTask.text}
-                />
-              ))}
-            </>
-          )}
-        </Modal>
-      )}
     </>
   );
 }
