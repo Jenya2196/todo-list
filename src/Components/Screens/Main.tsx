@@ -26,7 +26,7 @@ function Main() {
     <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-2 p-2 sm:p-4">
       <PagesGroup />
 
-      {lists.length === 0 ? (
+      {!lists.length ? (
         <h1 className="mb-6 text-center text-lg font-bold sm:text-xl md:text-2xl lg:text-3xl">
           You don't have any task groups yet
         </h1>
@@ -37,10 +37,13 @@ function Main() {
           </h1>
         </>
       )}
-      {lists.length === 0 ? (
-        <p className="text-center text-gray-500 italic dark:text-gray-400">
-          The list is empty
-        </p>
+      {currentList?.tasks.length === 0 ? (
+        <>
+          <p className="text-center text-gray-500 italic dark:text-gray-400">
+            The list is empty
+          </p>
+          {pageId && <AddBlockTask />}
+        </>
       ) : (
         <div className="mt-4 w-full space-y-3 sm:space-y-4">
           {currentList &&

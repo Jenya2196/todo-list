@@ -21,37 +21,44 @@ type Props = {
 };
 
 function CreateGroup({ onSubmit }: Props) {
-  const [tasks, setTasks] = useState<string[]>(['']);
-  const [groupName, setGroupName] = useState('');
-  const [taskName, setTaskName] = useState('');
+  const [data, setData] = useState<{
+    tasks: string[];
+    groupName: string;
+    taskName: string;
+  }>({ groupName: '', taskName: '', tasks: [''] });
   const { manager, update } = useTodo();
   const [open, setOpen] = useState(false);
 
   const handleAddTask = () => {
-    setTasks([...tasks, '']);
+    setData((prev) => ({ ...prev, tasks: [...prev.tasks, ''] }));
   };
 
   const handleChangeTask = (index: number, value: string) => {
-    const newTasks = [...tasks];
+    const newTasks = [...data.tasks];
     newTasks[index] = value;
-    setTasks(newTasks);
+    setData((prev) => ({ ...prev, tasks: newTasks }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!groupName.trim()) return;
+    if (!data.groupName.trim()) return;
 
-    const id = manager.CreateTodoList(groupName);
-    const taskId = manager.CreateTask(id, taskName);
+    const id = manager.CreateTodoList(data.groupName);
+    const taskId = manager.CreateTask(id, data.taskName);
 
     if (!taskId) return;
 
-    const filteredTasks = tasks.filter((task) => task !== '');
+    const filteredTasks = data.tasks.filter((task) => task !== '');
     manager.AddTask(id, taskId, [...filteredTasks]);
     update();
     onSubmit(id);
     setOpen(false);
+    setData({
+      tasks: [''],
+      groupName: '',
+      taskName: '',
+    });
   };
 
   return (
@@ -76,9 +83,11 @@ function CreateGroup({ onSubmit }: Props) {
                 <Input
                   id="groupName"
                   name="groupName"
-                  value={groupName}
+                  value={data.groupName}
                   required
-                  onChange={(e) => setGroupName(e.target.value)}
+                  onChange={(e) =>
+                    setData((prev) => ({ ...prev, groupName: e.target.value }))
+                  }
                 />
               </Field>
               <Field>
@@ -87,11 +96,13 @@ function CreateGroup({ onSubmit }: Props) {
                   required
                   id="taskName"
                   name="taskName"
-                  value={taskName}
-                  onChange={(e) => setTaskName(e.target.value)}
+                  value={data.taskName}
+                  onChange={(e) =>
+                    setData((prev) => ({ ...prev, taskName: e.target.value }))
+                  }
                 />
               </Field>
-              {tasks.map((task, index) => (
+              {data.tasks.map((task, index) => (
                 <Field key={index}>
                   <Label htmlFor="description">Task Description</Label>
                   <Textarea
